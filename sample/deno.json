@@ -6,7 +6,7 @@
     "serve": "deno run --allow-net --allow-read jsr:@std/http@1/file-server dist/"
   },
   "compilerOptions": {
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "jsxImportSourceTypes": "@types/react"
@@ -21,5 +21,11 @@
     "react-dom": "npm:react-dom@^18.3.1",
     "use-haptic": "npm:use-haptic@^1.0.1",
     "vite": "npm:vite@^6.0.1"
+  },
+  "deploy": {
+    "project": "27435cf6-854d-4fbb-9505-2719b02b08ad",
+    "exclude": ["**/node_modules"],
+    "include": [],
+    "entrypoint": "jsr:@std/http@1.0.0-rc.5/file-server"
   }
 }
