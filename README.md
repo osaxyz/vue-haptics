@@ -16,7 +16,7 @@
 
 A convenient React hook that utilizes `input[switch]` introduced in [Safari 18.0](https://webkit.org/blog/15865/webkit-features-in-safari-18-0/) to trigger haptic feedback anytime, anywhere in your application.
 
-Try [Demo](https://use-haptic.vercel.app) here !!!!! 👈🏻
+Try [Demo](https://use-haptic.deno.dev/) here !!!!! 👈🏻
 
 ## Features
 
