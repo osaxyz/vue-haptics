@@ -27,9 +27,6 @@ Try [Demo](https://use-haptic.vercel.app) here !!!!! 👈🏻
 
 ```bash
 npm install use-haptic
-yarn add use-haptic
-pnpm add use-haptic
-bun add use-haptic
 ```
 
 ## Quick start
@@ -61,11 +58,11 @@ VITE v5.4.6 ready in 102 ms
 ## Usage
 
 ```tsx
-import { useHaptic } from "use-haptic";
+import { useHaptic } from 'use-haptic'
 
 function VibrationButton() {
-  const { vibe } = useHaptic();
-  return <button onClick={vibe}>Vibe</button>;
+  const { vibe } = useHaptic()
+  return <button onClick={vibe}>Vibe</button>
 }
 ```
 
