@@ -37,10 +37,6 @@ cd sample
 deno task dev
 ```
 
-```bash
-deno task dev
-```
-
 And you can visit the demo page by scanning the QR code displayed in the terminal.
 
 ## Usage
