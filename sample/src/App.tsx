@@ -1,5 +1,3 @@
-// @ts-expect-error Unable to infer type at the moment
-import viteLogo from '../public/vite-deno.svg'
 import './App.css'
 import { VibrationButton } from './components/VibrationButton/index.tsx'
 
@@ -8,7 +6,7 @@ function App() {
     <main>
       <div>
         <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
+          <img src="/vite-deno.svg" className="logo" alt="Vite logo" />
         </a>
       </div>
       <h1>Vite + React</h1>
