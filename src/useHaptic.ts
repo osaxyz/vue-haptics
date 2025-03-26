@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
-import { detectiOS } from "./utils";
+import { detectiOS } from "./utils.ts";
 
 const HAPTIC_DURATION = 100;
 

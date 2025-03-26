@@ -1,5 +1,5 @@
-import './App.css'
-import { VibrationButton } from './components/VibrationButton/index.tsx'
+import "./App.css";
+import { VibrationButton } from "./components/VibrationButton/index.tsx";
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </main>
-  )
+  );
 }
 
-export default App
+export default App;
