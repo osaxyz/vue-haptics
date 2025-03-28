@@ -28,7 +28,7 @@ export const VibrationButton = () => {
 
   return (
     <div className="haptic-btn-container">
-      <button className="haptic-btn" onClick={handleClick}>
+      <button className="haptic-btn" onClick={handleClick} type="button">
         Feel Vibration !!!
       </button>
       <label>
