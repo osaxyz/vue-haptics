@@ -56,3 +56,15 @@ function VibrationButton() {
 ## License
 
 [MIT](./LICENSE)
+
+
+## Publish npm package by [dnt](https://github.com/denoland/dnt)
+
+```bash
+# run script
+deno run -A scripts/build_npm.ts 0.1.0
+
+# go to output directory and publish
+cd npm
+npm publish
+```
