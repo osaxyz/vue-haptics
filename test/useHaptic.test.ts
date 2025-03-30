@@ -41,7 +41,7 @@ describe("useHaptic", () => {
     }
   });
 
-  it("label click is executed when vibe() is called", () => {
+  it("label click is executed when triggerHaptic() is called", () => {
     // render useHaptic hook
     const { result } = renderHook(() => useHaptic());
 
@@ -58,7 +58,7 @@ describe("useHaptic", () => {
 
     try {
       // call vibe()
-      result.current.vibe();
+      result.current.triggerHaptic();
 
       // verify label.click is called 1 time
       assertSpyCalls(labelClickSpy, 1);

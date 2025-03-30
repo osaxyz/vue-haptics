@@ -10,19 +10,21 @@ const HAPTIC_DURATION = 100;
  * element for iOS devices and falls back to the Vibration API for other supported devices.
  *
  * @param {number} duration - The duration of the vibration in milliseconds (default: 100ms)
- * @returns {Object} An object containing the `vibe` function to trigger haptic feedback
+ * @returns {Object} An object containing the `triggerHaptic` function to trigger haptic feedback
  *
  * @example
  * ```tsx
  * import { useHaptic } from "use-haptic";
  *
  * function HapticButton() {
- *   const { vibe } = useHaptic(200); // 200ms vibration
- *   return <button onClick={vibe}>Vibrate</button>;
+ *   const { triggerHaptic } = useHaptic(200); // 200ms vibration
+ *   return <button onClick={triggerHaptic}>Vibrate</button>;
  * }
  * ```
  */
-export const useHaptic = (duration = HAPTIC_DURATION): { vibe: () => void } => {
+export const useHaptic = (
+  duration = HAPTIC_DURATION,
+): { triggerHaptic: () => void } => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const labelRef = useRef<HTMLLabelElement | null>(null);
   const isIOS = useMemo(() => detectiOS(), []);
@@ -51,7 +53,7 @@ export const useHaptic = (duration = HAPTIC_DURATION): { vibe: () => void } => {
     };
   }, []);
 
-  const vibe = useCallback(() => {
+  const triggerHaptic = useCallback(() => {
     if (isIOS) {
       labelRef.current?.click();
     } else {
@@ -63,7 +65,7 @@ export const useHaptic = (duration = HAPTIC_DURATION): { vibe: () => void } => {
     }
   }, [isIOS]);
 
-  return { vibe };
+  return { triggerHaptic };
 };
 
 // For backwards compatibility
