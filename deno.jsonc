@@ -24,12 +24,14 @@
   ],
   "exports": "./src/mod.ts",
   "publish": {
-    "include": ["src"],
-    "exclude": ["tests"],
-    "runtimes": {
-      "deno": "^1.40.0",
-      "node": ">=16.0.0",
-      "browser": true
-    }
+    "exclude": [
+      "tests",
+      "scripts",
+      "samples",
+      "node_modules",
+      "npm",
+      ".github",
+      ".vscode"
+    ]
   }
 }
