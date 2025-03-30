@@ -25,10 +25,6 @@ await build({
       url: "https://github.com/posaune0423/use-haptic/issues",
     },
   },
-  typeCheck: false,
-  test: false,
-  declaration: false,
-  scriptModule: false,
   postBuild() {
     // steps to run after building and before running the tests
     Deno.copyFileSync("LICENSE", "npm/LICENSE");

@@ -9,6 +9,7 @@
     "npm:react-dom@^18.3.1": "18.3.1_react@18.3.1",
     "npm:react@^18.3.1": "18.3.1",
     "npm:use-haptic@1.1.2": "1.1.2_react@18.3.1",
+    "npm:use-haptic@1.1.5": "1.1.5",
     "npm:use-haptic@^1.0.1": "1.1.2_react@18.3.1",
     "npm:vite-plugin-qrcode@~0.2.3": "0.2.3_vite@5.4.11__@types+node@22.5.4_@types+node@22.5.4",
     "npm:vite@*": "6.0.2",
@@ -450,6 +451,9 @@
         "react"
       ]
     },
+    "use-haptic@1.1.5": {
+      "integrity": "sha512-e9ul287T2Kw7VFM6Oxx0KtQmmMMw1yqD+P41kLoJZG7ZnpgrPmZkxFHLN6msGhjiy0bv/tB42g21joPMaBQsBw=="
+    },
     "vite-plugin-qrcode@0.2.3_vite@5.4.11__@types+node@22.5.4_@types+node@22.5.4": {
       "integrity": "sha512-TFzhf20v29hnh2XEoZ2kxg8Ff/ui36pR7PGDaHaKEmsQaRagv31XacHxbw5O07HcC1Mkr4tKcYb+PFASSceHmw==",
       "dependencies": [
@@ -494,7 +498,7 @@
       "npm:@vitejs/plugin-react-swc@^3.7.1",
       "npm:react-dom@^18.3.1",
       "npm:react@^18.3.1",
-      "npm:use-haptic@1.1.2",
+      "npm:use-haptic@1.1.5",
       "npm:vite-plugin-qrcode@~0.2.3",
       "npm:vite@^6.0.1"
     ]

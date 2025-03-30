@@ -7,7 +7,7 @@ export const VibrationButton = () => {
   const [isContinuous, setIsContinuous] = useState(false);
   const [duration, setDuration] = useState(5000);
   const [interval, setInterval] = useState(100);
-  const { vibe } = useHaptic();
+  const { triggerHaptic } = useHaptic();
 
   const handleClick = () => {
     if (isContinuous) {
@@ -15,14 +15,14 @@ export const VibrationButton = () => {
 
       const continuousVibration = () => {
         if (Date.now() - startTime < duration) {
-          vibe();
+          triggerHaptic();
           setTimeout(continuousVibration, interval);
         }
       };
 
       continuousVibration();
     } else {
-      vibe();
+      triggerHaptic();
     }
   };
 
