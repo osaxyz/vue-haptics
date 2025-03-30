@@ -1,9 +1,9 @@
 <div align="center">
   <h1>use-haptic 📳</h1>
-  
-  <p>A convenient React hook to trigger haptic feedback anywhere in your application</p>
 
-  <p>
+<p>A convenient React hook to trigger haptic feedback anywhere in your application</p>
+
+<p>
     <a href="https://github.com/posaune0423/use-haptic/actions/workflows/ci.yml">
       <img alt="CI" src="https://github.com/posaune0423/use-haptic/actions/workflows/ci.yml/badge.svg" />
     </a>
@@ -18,14 +18,16 @@
     </a>
   </p>
 
-  <p>
+<p>
     <a href="https://use-haptic.deno.dev/">Try the Demo!</a>
   </p>
 </div>
 
 ## ✨ Overview
 
-This package utilizes the `input[switch]` element introduced in [Safari 18.0](https://webkit.org/blog/15865/webkit-features-in-safari-18-0/) to trigger haptic feedback anytime, anywhere in your React application.
+This package utilizes the `input[switch]` element introduced in
+[Safari 18.0](https://webkit.org/blog/15865/webkit-features-in-safari-18-0/) to
+trigger haptic feedback anytime, anywhere in your React application.
 
 ## 🚀 Features
 
@@ -71,7 +73,8 @@ You can visit the demo page by scanning the QR code displayed in the terminal.
 
 ### Publishing to npm
 
-This package uses [dnt](https://github.com/denoland/dnt) for npm package preparation:
+This package uses [dnt](https://github.com/denoland/dnt) for npm package
+preparation:
 
 ```bash
 # Build the package
