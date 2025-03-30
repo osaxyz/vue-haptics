@@ -1,6 +1,6 @@
 {
   "name": "@posaune0423/use-haptic",
-  "description": "useHaptic is a React hook that allows you to use haptic feedback on your website.",
+  "description": "A convenient React hook to trigger haptic feedback anywhere in your application",
   "version": "1.1.3",
   "imports": {
     "@deno/dnt": "jsr:@deno/dnt@^0.41.3",
@@ -25,6 +25,11 @@
   "exports": "./src/mod.ts",
   "publish": {
     "include": ["src"],
-    "exclude": ["tests"]
+    "exclude": ["tests"],
+    "runtimes": {
+      "deno": "^1.40.0",
+      "node": ">=16.0.0",
+      "browser": true
+    }
   }
 }

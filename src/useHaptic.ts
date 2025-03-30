@@ -4,11 +4,25 @@ import { detectiOS } from "./utils.ts";
 const HAPTIC_DURATION = 100;
 
 /**
- * Hook for Haptic Feedback for mobile web
- * @param {number} duration - The duration of the vibration in milliseconds
- * @returns {Object}
+ * React hook for triggering haptic feedback on mobile devices
+ *
+ * This hook creates hidden DOM elements to trigger haptic feedback using the `input[switch]`
+ * element for iOS devices and falls back to the Vibration API for other supported devices.
+ *
+ * @param {number} duration - The duration of the vibration in milliseconds (default: 100ms)
+ * @returns {Object} An object containing the `vibe` function to trigger haptic feedback
+ *
+ * @example
+ * ```tsx
+ * import { useHaptic } from "use-haptic";
+ *
+ * function HapticButton() {
+ *   const { vibe } = useHaptic(200); // 200ms vibration
+ *   return <button onClick={vibe}>Vibrate</button>;
+ * }
+ * ```
  */
-const useHaptic = (duration = HAPTIC_DURATION) => {
+export const useHaptic = (duration = HAPTIC_DURATION) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const labelRef = useRef<HTMLLabelElement | null>(null);
   const isIOS = useMemo(() => detectiOS(), []);
@@ -52,4 +66,5 @@ const useHaptic = (duration = HAPTIC_DURATION) => {
   return { vibe };
 };
 
+// For backwards compatibility
 export default useHaptic;
