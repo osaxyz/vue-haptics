@@ -22,6 +22,7 @@ await build({
     description:
       "useHaptic is a React hook that allows you to use haptic feedback on your website.",
     license: "MIT",
+    keywords: ["react", "haptic", "haptic feedback", "pwa", "ios"],
     repository: {
       type: "git",
       url: "git+https://github.com/posaune0423/use-haptic.git",
