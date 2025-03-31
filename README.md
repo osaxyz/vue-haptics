@@ -20,9 +20,6 @@
       <a href="https://npmjs.org/package/use-haptic">
         <img alt="downloads" src="https://img.shields.io/npm/d18m/use-haptic" />
       </a>
-      <a href="https://npmjs.org/package/use-haptic">
-        <img alt="types included" src="https://badgen.net/npm/types/use-haptic" />
-      </a>
   </p>
 
 <h2>
