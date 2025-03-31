@@ -23,7 +23,7 @@
   </p>
 
 <h2>
-      <a href="https://use-haptic.deno.dev/">Try the Demo!</a>
+      <a href="kjwzkv.csb.app/">Try Demo!</a>
   </h2>
 </div>
 
