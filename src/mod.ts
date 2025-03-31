@@ -8,9 +8,9 @@
  * ```tsx
  * import { useHaptic } from "use-haptic";
  *
- * function VibrationButton() {
- *   const { vibe } = useHaptic();
- *   return <button onClick={vibe}>Vibe</button>;
+ * function HapticButton() {
+ *   const { triggerHaptic } = useHaptic();
+ *   return <button onClick={triggerHaptic}>Haptic</button>;
  * }
  * ```
  */
