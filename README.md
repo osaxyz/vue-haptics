@@ -46,8 +46,21 @@ trigger haptic feedback anytime, anywhere in your React application.
 
 ## 📦 Installation
 
+
 ```bash
 npm install use-haptic
+```
+
+```bash
+yarn add use-haptic
+```
+
+```bash
+pnpm install use-haptic
+```
+
+```bash
+bun add use-haptic
 ```
 
 ```bash
@@ -59,7 +72,7 @@ deno add jsr:@posaune0423/use-haptic
 ```tsx
 import { useHaptic } from "use-haptic";
 
-function VibrationButton() {
+function HapticButton() {
   const { triggerHaptic } = useHaptic();
   return <button onClick={triggerHaptic}>Feel Haptic</button>;
 }
