@@ -2,8 +2,8 @@ name: Publish NPM
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - main
 
 jobs:
   publish:
@@ -22,10 +22,10 @@ jobs:
         with:
           deno-version: v2.x
 
-      - name: Extract version from deno.jsonc 🏷️
+      - name: Extract version from deno.json 🏷️
         id: get_version
         run: |
-          VERSION=$(deno eval "console.log(JSON.parse(Deno.readTextFileSync('deno.jsonc').replace(/\\/\\/.*/g, '')).version)")
+          VERSION=$(deno eval "console.log(JSON.parse(Deno.readTextFileSync('deno.json').replace(/\\/\\/.*/g, '')).version)")
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Version extracted: $VERSION"
 
@@ -35,7 +35,7 @@ jobs:
       - name: Setup Node.js 🔧
         uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
+          node-version: "22.x"
           registry-url: "https://registry.npmjs.org"
 
       - name: Publish to npm 🎁
