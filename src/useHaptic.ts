@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { detectiOS } from "./utils.ts";
 
-const HAPTIC_DURATION = 100;
+const HAPTIC_DURATION = 5;
 
 /**
  * React hook for triggering haptic feedback on mobile devices

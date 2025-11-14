@@ -1,7 +1,7 @@
 {
   "name": "@posaune0423/use-haptic",
   "description": "A convenient React hook to trigger haptic feedback anywhere in your application",
-  "version": "1.1.11",
+  "version": "1.1.12",
   "imports": {
     "@deno/dnt": "jsr:@deno/dnt@^0.41.3",
     "@std/assert": "jsr:@std/assert@1",
