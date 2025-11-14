@@ -1,9 +1,9 @@
 import jsdom from "global-jsdom";
 jsdom();
 
-import { assertEquals } from "jsr:@std/assert";
-import { describe, it } from "jsr:@std/testing/bdd";
-import { assertSpyCall, assertSpyCalls, spy } from "jsr:@std/testing/mock";
+import { assertEquals } from "@std/assert";
+import { describe, it } from "@std/testing/bdd";
+import { assertSpyCall, assertSpyCalls, spy } from "@std/testing/mock";
 import { renderHook } from "@testing-library/react";
 import useHaptic from "../src/useHaptic.ts";
 
