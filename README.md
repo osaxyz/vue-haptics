@@ -1,37 +1,21 @@
-<div align="center">
+# vue-haptic
+A convenient Vue composable to trigger haptic feedback anywhere in your application
 
-<h1>vue-haptic 📳</h1>
-
-<p>A convenient Vue composable to trigger haptic feedback anywhere in your application</p>
-
-<p>
-      <a href="https://github.com/posaune0423/vue-haptic/actions/workflows/ci.yml">
-        <img alt="CI" src="https://github.com/posaune0423/vue-haptic/actions/workflows/ci.yml/badge.svg" />
-      </a>
-      <a href="https://www.npmjs.com/package/vue-haptic">
-        <img src="https://img.shields.io/npm/v/vue-haptic.svg" alt="npm package" />
-      </a>
-      <a href="https://npmjs.org/package/vue-haptic">
-        <img alt="downloads" src="https://img.shields.io/npm/d18m/vue-haptic" />
-      </a>
-  </p>
-</div>
-
-## ✨ Overview
+## Overview
 
 This package utilizes the `input[switch]` element introduced in
 [Safari 18.0](https://webkit.org/blog/15865/webkit-features-in-safari-18-0/) to
 trigger haptic feedback anytime, anywhere in your Vue application.
 
-## 🚀 Features
+## Features
 
-- ✅ Trigger haptic feedback at any time in your Vue application
-- ✅ Support iOS, Android
-- ✅ Simple, intuitive API
-- ✅ Native TypeScript support
-- ✅ ESM / CJS compatible
+- Trigger haptic feedback at any time in your Vue application
+- Support iOS, Android
+- Simple, intuitive API
+- Native TypeScript support
+- ESM / CJS compatible
 
-## 📦 Installation
+## Installation
 
 ```bash
 npm install vue-haptic
@@ -49,7 +33,7 @@ pnpm add vue-haptic
 bun add vue-haptic
 ```
 
-## 🔧 Usage
+## Usage
 
 ```vue
 <script setup lang="ts">
@@ -63,12 +47,12 @@ const { triggerHaptic } = useHaptic();
 </template>
 ```
 
-## 🏃‍♂️ Quick Start
+## Quick Start
 
 Clone the repository and run the sample app:
 
 ```bash
-git clone https://github.com/posaune0423/vue-haptic.git
+git clone https://github.com/artouc/vue-haptic.git
 cd sample/vite-vue
 npm install
 npm run dev
@@ -76,7 +60,7 @@ npm run dev
 
 You can visit the demo page by scanning the QR code displayed in the terminal.
 
-## 🧰 Development
+## Development
 
 ```bash
 # Install dependencies
@@ -96,6 +80,6 @@ npm run build
 npm publish
 ```
 
-## 📄 License
+## License
 
 [MIT](./LICENSE)
