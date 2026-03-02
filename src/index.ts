@@ -18,4 +18,4 @@
  * ```
  */
 
-export * from "./useHaptic";
+export * from "./useHaptic"

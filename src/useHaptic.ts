@@ -1,7 +1,7 @@
-import { onMounted, onUnmounted, ref } from "vue";
-import { detectiOS } from "./utils";
+import { onMounted, onUnmounted, ref } from "vue"
+import { detectiOS } from "./utils"
 
-const HAPTIC_DURATION = 5;
+const HAPTIC_DURATION = 5
 
 /**
  * Vue composable for triggering haptic feedback on mobile devices
@@ -26,46 +26,46 @@ const HAPTIC_DURATION = 5;
  * ```
  */
 export const useHaptic = (
-  duration: number = HAPTIC_DURATION,
+    duration: number = HAPTIC_DURATION,
 ): { triggerHaptic: () => void } => {
-  const inputRef = ref<HTMLInputElement | null>(null);
-  const labelRef = ref<HTMLLabelElement | null>(null);
-  const isIOS = detectiOS();
+    const input_ref = ref<HTMLInputElement | null>(null)
+    const label_ref = ref<HTMLLabelElement | null>(null)
+    const is_ios = detectiOS()
 
-  onMounted(() => {
-    const input = document.createElement("input");
-    input.type = "checkbox";
-    input.id = "haptic-switch";
-    input.setAttribute("switch", "");
-    input.style.display = "none";
-    document.body.appendChild(input);
-    inputRef.value = input;
+    onMounted(() => {
+        const input = document.createElement("input")
+        input.type = "checkbox"
+        input.id = "haptic-switch"
+        input.setAttribute("switch", "")
+        input.style.display = "none"
+        document.body.appendChild(input)
+        input_ref.value = input
 
-    const label = document.createElement("label");
-    label.htmlFor = "haptic-switch";
-    label.style.display = "none";
-    document.body.appendChild(label);
-    labelRef.value = label;
-  });
+        const label = document.createElement("label")
+        label.htmlFor = "haptic-switch"
+        label.style.display = "none"
+        document.body.appendChild(label)
+        label_ref.value = label
+    })
 
-  onUnmounted(() => {
-    if (inputRef.value) {
-      document.body.removeChild(inputRef.value);
+    onUnmounted(() => {
+        if (input_ref.value) {
+            document.body.removeChild(input_ref.value)
+        }
+        if (label_ref.value) {
+            document.body.removeChild(label_ref.value)
+        }
+    })
+
+    const triggerHaptic = () => {
+        if (!is_ios && navigator?.vibrate) {
+            navigator.vibrate(duration)
+        } else {
+            label_ref.value?.click()
+        }
     }
-    if (labelRef.value) {
-      document.body.removeChild(labelRef.value);
-    }
-  });
 
-  const triggerHaptic = () => {
-    if (!isIOS && navigator?.vibrate) {
-      navigator.vibrate(duration);
-    } else {
-      labelRef.value?.click();
-    }
-  };
+    return { triggerHaptic }
+}
 
-  return { triggerHaptic };
-};
-
-export default useHaptic;
+export default useHaptic
