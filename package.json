@@ -2,7 +2,7 @@
   "name": "vue-haptic",
   "version": "1.1.13",
   "description": "A convenient Vue composable to trigger haptic feedback anywhere in your application",
-  "author": "posaune0423",
+  "author": "Arata Ouchi",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.cjs",
