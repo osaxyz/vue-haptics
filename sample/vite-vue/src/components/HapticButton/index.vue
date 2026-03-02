@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue"
-import { useHaptic } from "vue-haptic"
+import { useHaptic } from "@osaxyz/vue-haptics"
 import "./style.css"
 
 const is_continuous = ref(false)
