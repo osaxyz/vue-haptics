@@ -1,5 +1,5 @@
 {
-  "name": "@osaxyz/vue-haptics",
+  "name": "vue-haptics",
   "version": "2.0.1",
   "description": "A convenient Vue composable to trigger haptic feedback anywhere in your application",
   "author": "Arata Ouchi",

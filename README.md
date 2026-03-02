@@ -1,4 +1,4 @@
-# @osaxyz/vue-haptics
+# vue-haptics
 A convenient Vue composable to trigger haptic feedback anywhere in your application
 
 ## Overview
@@ -18,26 +18,26 @@ trigger haptic feedback anytime, anywhere in your Vue application.
 ## Installation
 
 ```bash
-npm install @osaxyz/vue-haptics
+npm install vue-haptics
 ```
 
 ```bash
-yarn add @osaxyz/vue-haptics
+yarn add vue-haptics
 ```
 
 ```bash
-pnpm add @osaxyz/vue-haptics
+pnpm add vue-haptics
 ```
 
 ```bash
-bun add @osaxyz/vue-haptics
+bun add vue-haptics
 ```
 
 ## Usage
 
 ```vue
 <script setup lang="ts">
-import { useHaptic } from "@osaxyz/vue-haptics";
+import { useHaptic } from "vue-haptics";
 
 const { triggerHaptic } = useHaptic();
 </script>

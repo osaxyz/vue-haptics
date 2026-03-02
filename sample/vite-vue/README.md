@@ -1,6 +1,6 @@
 # Vue + TypeScript + Vite
 
-This is a sample project for @osaxyz/vue-haptics.
+This is a sample project for vue-haptics.
 
 ## Usage
 

@@ -16,7 +16,7 @@ const haptic_duration = 5
  * @example
  * ```vue
  * <script setup lang="ts">
- * import { useHaptic } from "@osaxyz/vue-haptics";
+ * import { useHaptic } from "vue-haptics";
  *
  * const { triggerHaptic } = useHaptic(200); // 200ms vibration
  * </script>
