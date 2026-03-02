@@ -1,6 +1,6 @@
 {
   "name": "vue-haptics",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A convenient Vue composable to trigger haptic feedback anywhere in your application",
   "author": "Arata Ouchi",
   "license": "MIT",
@@ -64,12 +64,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/artouc/vue-haptic.git"
+    "url": "git+https://github.com/osaxyz/vue-haptics.git"
   },
   "bugs": {
-    "url": "https://github.com/artouc/vue-haptic/issues"
+    "url": "https://github.com/osaxyz/vue-haptics/issues"
   },
-  "homepage": "https://github.com/artouc/vue-haptic#readme",
+  "homepage": "https://github.com/osaxyz/vue-haptics#readme",
   "peerDependencies": {
     "vue": "^3.0.0"
   },

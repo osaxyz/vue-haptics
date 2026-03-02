@@ -52,7 +52,7 @@ const { triggerHaptic } = useHaptic();
 Clone the repository and run the sample app:
 
 ```bash
-git clone https://github.com/artouc/vue-haptic.git
+git clone https://github.com/osaxyz/vue-haptics.git
 cd sample/vite-vue
 npm install
 npm run dev
