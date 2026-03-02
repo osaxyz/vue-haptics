@@ -1,5 +1,8 @@
 # vue-haptics
-A convenient Vue composable to trigger haptic feedback anywhere in your application
+
+<img src=".github/assets/icon-512w.png" alt="vue-haptics" width="150px"/>
+
+> A convenient Vue composable to trigger haptic feedback anywhere in your application
 
 ## Overview
 
