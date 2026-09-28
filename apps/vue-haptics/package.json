@@ -1,0 +1,74 @@
+{
+    "name": "vue-haptics",
+    "version": "3.0.0",
+    "description": "Haptic feedback for Vue 3 that also works on iOS Safari, where the Vibration API is not available",
+    "author": "Arata Ouchi",
+    "license": "MIT",
+    "type": "module",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./dist/index.d.ts",
+                "default": "./dist/index.js"
+            },
+            "require": {
+                "types": "./dist/index.d.cts",
+                "default": "./dist/index.cjs"
+            }
+        }
+    },
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+        "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+        "test": "vitest run",
+        "typecheck": "tsc --noEmit",
+        "prepack": "pnpm run build && node scripts/copy-docs.mjs"
+    },
+    "keywords": [
+        "vue",
+        "vue3",
+        "haptic",
+        "haptics",
+        "haptic feedback",
+        "vibration",
+        "vibration api",
+        "taptic",
+        "ios",
+        "safari",
+        "android",
+        "pwa",
+        "composable",
+        "directive"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/osaxyz/vue-haptics.git",
+        "directory": "apps/vue-haptics"
+    },
+    "bugs": {
+        "url": "https://github.com/osaxyz/vue-haptics/issues"
+    },
+    "homepage": "https://github.com/osaxyz/vue-haptics#readme",
+    "peerDependencies": {
+        "vue": "^3.3.0"
+    },
+    "devDependencies": {
+        "@osaxyz/tsconfig": "workspace:*",
+        "@types/node": "^22.0.0",
+        "@vitejs/plugin-vue": "^5.2.0",
+        "@vue/test-utils": "^2.4.6",
+        "happy-dom": "^16.0.0",
+        "tsup": "^8.0.0",
+        "typescript": "^5.7.0",
+        "vite": "^6.0.0",
+        "vitest": "^3.0.0",
+        "vue": "^3.5.0"
+    },
+    "sideEffects": false
+}
