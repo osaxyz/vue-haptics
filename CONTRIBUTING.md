@@ -1,4 +1,8 @@
-<img src=".github/assets/icon-512w.png" width="96" alt="vue-haptics">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/logo-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/logo.png">
+  <img src="docs/assets/logo.png" width="96" alt="vue-haptics">
+</picture>
 
 # Contributing to vue-haptics
 
@@ -78,7 +82,7 @@ NG  feat(src): ディレクティブ
 
 Releases are published by `.github/workflows/publish.yml` with npm Trusted Publishing and provenance. Nobody publishes from a local machine.
 
-1. Update `version` in `apps/vue-haptics/package.json` and `VERSION`, and add release notes to `llm/version/<version>.md`.
+1. Update `version` in `apps/vue-haptics/package.json` and `VERSION`.
 2. Merge the change into `main`.
 3. Run the workflow.
 
@@ -161,7 +165,7 @@ NG  feat(src): ディレクティブ
 
 リリースは `.github/workflows/publish.yml` が npm の Trusted Publishing と provenance 付きで公開します。手元のマシンからは公開しません。
 
-1. `apps/vue-haptics/package.json` と `VERSION` の `version` を更新し、`llm/version/<version>.md` にリリースノートを書きます。
+1. `apps/vue-haptics/package.json` と `VERSION` の `version` を更新します。
 2. 変更を `main` にマージします。
 3. ワークフローを実行します。
 
