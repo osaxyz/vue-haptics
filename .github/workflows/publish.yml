@@ -23,14 +23,16 @@ jobs:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           persist-credentials: false
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+        with:
+          version: 11
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 24
-      - run: npm ci
-      - run: npm run typecheck
-      - run: npm test
-      # prepack でビルドしてから tarball を作る。
-      - run: npm pack --pack-destination "$RUNNER_TEMP/package"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec turbo run typecheck test --filter=vue-haptics
+      # prepack でビルドし、README と LICENSE を写してから tarball を作る。workspace の参照は版に置き換わる。
+      - run: pnpm --filter vue-haptics pack --pack-destination "$RUNNER_TEMP/package"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: package
