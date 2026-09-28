@@ -49,6 +49,8 @@ This is a Turborepo monorepo managed with pnpm.
 
 Haptics cannot be tested in a desktop browser. Run `pnpm dev` and scan the QR code in the terminal to open the demo on a phone on the same network.
 
+npm shows `apps/vue-haptics/README.md`, not the root README. When you change the README, update both. npm does not support GitHub alerts or relative paths, so the package README writes alerts as `> **Important:** …` and uses absolute URLs for images.
+
 </details>
 
 <details>
@@ -131,6 +133,8 @@ pnpm で管理する Turborepo のモノレポです。
 | `pnpm dev` | ライブラリを監視しながら、デモを配信します |
 
 触覚フィードバックはデスクトップのブラウザでは確かめられません。`pnpm dev` を実行し、ターミナルに出る QR コードを同じネットワークのスマホで読み取ってデモを開きます。
+
+npm に表示されるのはルートの README ではなく `apps/vue-haptics/README.md` です。README を変えたら両方を更新します。npm は GitHub のアラートと相対パスに対応していないので、パッケージの README ではアラートを `> **重要**：…` の形で書き、画像は絶対 URL にします。
 
 </details>
 

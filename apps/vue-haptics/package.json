@@ -28,7 +28,7 @@
         "build": "tsup src/index.ts --format cjs,esm --dts --clean",
         "test": "vitest run",
         "typecheck": "tsc --noEmit",
-        "prepack": "pnpm run build && node scripts/copy-docs.mjs"
+        "prepack": "pnpm run build"
     },
     "keywords": [
         "vue",
