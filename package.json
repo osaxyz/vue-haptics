@@ -1,0 +1,81 @@
+{
+  "name": "vue-haptics",
+  "version": "3.0.0",
+  "description": "Haptic feedback for Vue 3: composable, v-haptic directive and plugin",
+  "author": "Arata Ouchi",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vitest",
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "biome check src/ test/",
+    "lint:fix": "biome check --fix src/ test/",
+    "lint:vue": "eslint \"sample/**/*.vue\"",
+    "format": "biome format --write src/ test/",
+    "typecheck": "tsc --noEmit",
+    "prepack": "npm run build"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "haptic",
+    "haptics",
+    "haptic feedback",
+    "vibration",
+    "vibration api",
+    "taptic",
+    "ios",
+    "safari",
+    "android",
+    "pwa",
+    "composable",
+    "directive"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osaxyz/vue-haptics.git"
+  },
+  "bugs": {
+    "url": "https://github.com/osaxyz/vue-haptics/issues"
+  },
+  "homepage": "https://github.com/osaxyz/vue-haptics#readme",
+  "peerDependencies": {
+    "vue": "^3.3.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.5",
+    "@types/node": "^22.0.0",
+    "@vitejs/plugin-vue": "^5.2.0",
+    "@vue/test-utils": "^2.4.6",
+    "eslint": "^10.0.2",
+    "eslint-plugin-vue": "^10.8.0",
+    "happy-dom": "^16.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.70.1",
+    "vite": "^6.0.0",
+    "vitest": "^3.0.0",
+    "vue": "^3.5.0"
+  },
+  "sideEffects": false
+}
