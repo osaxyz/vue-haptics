@@ -1,0 +1,8 @@
+node_modules
+dist
+coverage
+*.log
+AGENTS.md
+CLAUDE.md
+opencode.json
+.DS_Store
