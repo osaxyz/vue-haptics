@@ -1,4 +1,8 @@
-<img src=".github/assets/icon-512w.png" width="96" alt="vue-haptics">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/logo-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/logo.png">
+  <img src="docs/assets/logo.png" width="96" alt="vue-haptics">
+</picture>
 
 # vue-haptics
 
