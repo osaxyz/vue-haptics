@@ -2,6 +2,7 @@ import pluginVue from "eslint-plugin-vue"
 import tseslint from "typescript-eslint"
 
 export default [
+    { ignores: ["dist"] },
     ...pluginVue.configs["flat/recommended"],
     {
         files: ["**/*.vue"],
