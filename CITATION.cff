@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use vue-haptics in your work, please cite it as below."
+type: software
+title: vue-haptics
+abstract: >-
+  Haptic feedback for Vue 3 that also works on iOS Safari, where the
+  Vibration API is not available.
+authors:
+  - family-names: Ouchi
+    given-names: Arata
+  - family-names: Yamada
+    given-names: Asuma
+version: 3.0.0
+license: MIT
+repository-code: "https://github.com/osaxyz/vue-haptics"
+keywords:
+  - vue
+  - haptics
+  - vibration
+  - ios

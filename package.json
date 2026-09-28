@@ -1,0 +1,25 @@
+{
+    "name": "vue-haptics-monorepo",
+    "scripts": {
+        "build": "turbo run build",
+        "dev": "turbo run dev",
+        "test": "turbo run test",
+        "lint": "biome check && turbo run lint",
+        "typecheck": "turbo run typecheck",
+        "format": "biome check --write"
+    },
+    "license": "MIT",
+    "devEngines": {
+        "packageManager": {
+            "name": "pnpm",
+            "version": "^11.0.9",
+            "onFail": "download"
+        }
+    },
+    "type": "module",
+    "private": true,
+    "devDependencies": {
+        "@biomejs/biome": "^2.5.14",
+        "turbo": "^2.11.4"
+    }
+}
