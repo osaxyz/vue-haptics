@@ -1,6 +1,6 @@
 {
     "name": "vue-haptics",
-    "version": "3.0.0",
+    "version": "4.0.0",
     "description": "Haptic feedback for Vue 3 that also works on iOS Safari, where the Vibration API is not available",
     "author": "Arata Ouchi",
     "license": "MIT",

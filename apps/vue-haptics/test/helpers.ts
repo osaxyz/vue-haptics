@@ -1,10 +1,5 @@
 import { vi } from "vitest"
 
-export const SWITCH_SELECTOR = 'label[for="vue-haptics-switch"]'
-
-export const getSwitchLabel = (): HTMLLabelElement | null =>
-    document.querySelector(SWITCH_SELECTOR)
-
 // Replace navigator.vibrate for one test. Pass null to make it unavailable.
 export const stubVibrate = (
     impl: ((pattern: VibratePattern) => boolean) | null,
@@ -18,7 +13,24 @@ export const stubVibrate = (
     return vibrate
 }
 
-// Remove the shared switch so each test starts from an empty body.
+// Recreate iOS: no Vibration API, switches supported, touch input.
+export const stubIos = () => {
+    stubVibrate(null)
+    Object.defineProperty(HTMLInputElement.prototype, "switch", {
+        configurable: true,
+        value: false,
+    })
+    Object.defineProperty(navigator, "maxTouchPoints", {
+        configurable: true,
+        get: () => 5,
+    })
+}
+
+export const unstubIos = () => {
+    Reflect.deleteProperty(HTMLInputElement.prototype, "switch")
+    Reflect.deleteProperty(navigator, "maxTouchPoints")
+}
+
 export const resetDom = () => {
     document.body.innerHTML = ""
 }

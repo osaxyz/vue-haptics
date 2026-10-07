@@ -1,14 +1,6 @@
 import type { MaybeRefOrGetter } from "vue"
 
-/**
- * Vibration length in milliseconds, or an alternating on/off pattern
- * in the same shape as `navigator.vibrate()`.
- */
-export type HapticPattern = number | readonly number[]
-
 export type HapticsOptions = {
-    /** Pattern used when none is passed to the trigger. */
-    pattern?: MaybeRefOrGetter<HapticPattern | undefined>
     /** Suppress haptics while this is true. */
     disabled?: MaybeRefOrGetter<boolean | undefined>
 }
@@ -23,6 +15,6 @@ export type HapticsPluginOptions = HapticsOptions & {
 }
 
 /**
- * `v-haptic` accepts a pattern, or a boolean to switch it on and off.
+ * `v-haptic` takes a boolean to switch it on and off. Without a value it is on.
  */
-export type HapticDirectiveValue = HapticPattern | boolean | null | undefined
+export type HapticDirectiveValue = boolean | null | undefined
