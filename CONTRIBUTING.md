@@ -60,7 +60,10 @@ npm shows `apps/vue-haptics/README.md`, not the root README. When you change the
 
 The demo is served from Cloudflare Workers Static Assets at <https://vue-haptics-demo.original-sin-architecture.workers.dev>, on the Original SIN Architecture account. `apps/demo/wrangler.jsonc` has no Worker script and serves the Vite build in `dist`.
 
+The account ID is not committed. Copy `apps/demo/.env.example` to `apps/demo/.env` and set `CLOUDFLARE_ACCOUNT_ID`. Wrangler reads it from there, and `.env` is ignored by Git.
+
 ```sh
+cp apps/demo/.env.example apps/demo/.env
 pnpm exec turbo run deploy
 ```
 
@@ -167,7 +170,10 @@ npm に表示されるのはルートの README ではなく `apps/vue-haptics/R
 
 デモは Cloudflare の Original SIN Architecture のアカウントで、Workers Static Assets から <https://vue-haptics-demo.original-sin-architecture.workers.dev> に配信しています。`apps/demo/wrangler.jsonc` は Worker のスクリプトを持たず、Vite がビルドした `dist` を配信します。
 
+アカウント ID はリポジトリに入れていません。`apps/demo/.env.example` を `apps/demo/.env` に写し、`CLOUDFLARE_ACCOUNT_ID` を設定します。Wrangler はそこから読み込み、`.env` は Git の対象外です。
+
 ```sh
+cp apps/demo/.env.example apps/demo/.env
 pnpm exec turbo run deploy
 ```
 
