@@ -46,10 +46,25 @@ This is a Turborepo monorepo managed with pnpm.
 | `pnpm typecheck` | Type checks every package |
 | `pnpm build` | Builds the library and the demo |
 | `pnpm dev` | Watches the library and serves the demo |
+| `pnpm exec turbo run deploy` | Builds and deploys the demo to Cloudflare Workers |
 
 Haptics cannot be tested in a desktop browser. Run `pnpm dev` and scan the QR code in the terminal to open the demo on a phone on the same network.
 
 npm shows `apps/vue-haptics/README.md`, not the root README. When you change the README, update both. npm does not support GitHub alerts or relative paths, so the package README writes alerts as `> **Important:** …` and uses absolute URLs for images.
+
+</details>
+
+<details>
+<summary>Deploying the demo</summary>
+<br>
+
+The demo is served from Cloudflare Workers Static Assets at <https://vue-haptics-demo.original-sin-architecture.workers.dev>, on the Original SIN Architecture account. `apps/demo/wrangler.jsonc` has no Worker script and serves the Vite build in `dist`.
+
+```sh
+pnpm exec turbo run deploy
+```
+
+Turborepo builds the library and the demo first. Wrangler needs to be logged in with access to the account. `pnpm deploy` is a built-in pnpm command, so run the task through Turborepo.
 
 </details>
 
@@ -82,7 +97,7 @@ NG  feat(src): ディレクティブ
 <summary>Releases</summary>
 <br>
 
-Releases are published by `.github/workflows/publish.yml` with npm Trusted Publishing and provenance. Nobody publishes from a local machine.
+Releases are staged by `.github/workflows/publish.yml` with npm Trusted Publishing and provenance, and a maintainer approves them with two-factor authentication. Nobody publishes from a local machine.
 
 1. Update `version` in `apps/vue-haptics/package.json` and `VERSION`.
 2. Merge the change into `main`.
@@ -90,6 +105,13 @@ Releases are published by `.github/workflows/publish.yml` with npm Trusted Publi
 
 ```sh
 gh workflow run publish.yml --ref main
+```
+
+4. Approve the staged version with two-factor authentication, on the package page on npmjs.com or from the command line. Users cannot install it until it is approved.
+
+```sh
+npm stage list vue-haptics
+npm stage approve <stage-id>
 ```
 
 The workflow refuses to run from any branch other than `main`, and only the `npm` environment can publish.
@@ -131,10 +153,25 @@ pnpm で管理する Turborepo のモノレポです。
 | `pnpm typecheck` | すべてのパッケージの型を検査します |
 | `pnpm build` | ライブラリとデモをビルドします |
 | `pnpm dev` | ライブラリを監視しながら、デモを配信します |
+| `pnpm exec turbo run deploy` | デモをビルドして Cloudflare Workers にデプロイします |
 
 触覚フィードバックはデスクトップのブラウザでは確かめられません。`pnpm dev` を実行し、ターミナルに出る QR コードを同じネットワークのスマホで読み取ってデモを開きます。
 
 npm に表示されるのはルートの README ではなく `apps/vue-haptics/README.md` です。README を変えたら両方を更新します。npm は GitHub のアラートと相対パスに対応していないので、パッケージの README ではアラートを `> **重要**：…` の形で書き、画像は絶対 URL にします。
+
+</details>
+
+<details>
+<summary>デモのデプロイ</summary>
+<br>
+
+デモは Cloudflare の Original SIN Architecture のアカウントで、Workers Static Assets から <https://vue-haptics-demo.original-sin-architecture.workers.dev> に配信しています。`apps/demo/wrangler.jsonc` は Worker のスクリプトを持たず、Vite がビルドした `dist` を配信します。
+
+```sh
+pnpm exec turbo run deploy
+```
+
+Turborepo がライブラリとデモを先にビルドします。Wrangler は、このアカウントにアクセスできる状態でログインしている必要があります。`pnpm deploy` は pnpm の組み込みのコマンドなので、タスクは Turborepo から実行します。
 
 </details>
 
@@ -167,7 +204,7 @@ NG  feat(src): ディレクティブ
 <summary>リリース</summary>
 <br>
 
-リリースは `.github/workflows/publish.yml` が npm の Trusted Publishing と provenance 付きで公開します。手元のマシンからは公開しません。
+リリースは `.github/workflows/publish.yml` が npm の Trusted Publishing と provenance 付きで段階公開し、メンテナーが 2 要素認証を使って承認します。手元のマシンからは公開しません。
 
 1. `apps/vue-haptics/package.json` と `VERSION` の `version` を更新します。
 2. 変更を `main` にマージします。
@@ -175,6 +212,13 @@ NG  feat(src): ディレクティブ
 
 ```sh
 gh workflow run publish.yml --ref main
+```
+
+4. 段階公開された版を、npmjs.com のパッケージのページかコマンドラインで、2 要素認証を使って承認します。承認するまで利用者はインストールできません。
+
+```sh
+npm stage list vue-haptics
+npm stage approve <stage-id>
 ```
 
 ワークフローは `main` 以外のブランチからは動かず、公開できるのは `npm` environment だけです。
