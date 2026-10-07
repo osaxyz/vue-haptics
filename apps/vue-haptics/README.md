@@ -1,9 +1,3 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/osaxyz/vue-haptics/main/docs/assets/logo-dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/osaxyz/vue-haptics/main/docs/assets/logo.png">
-  <img src="https://raw.githubusercontent.com/osaxyz/vue-haptics/main/docs/assets/logo.png" width="96" alt="vue-haptics">
-</picture>
-
 # vue-haptics
 
 Haptic feedback for Vue 3 that also works on iOS Safari, where the Vibration API is not available.<br>

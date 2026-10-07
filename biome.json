@@ -6,7 +6,7 @@
         "useIgnoreFile": true
     },
     "files": {
-        "includes": ["**", "!!**/dist", "!**/*.vue", "!**/*.svg"]
+        "includes": ["**", "!!**/dist", "!**/*.vue"]
     },
     "formatter": {
         "enabled": true,
