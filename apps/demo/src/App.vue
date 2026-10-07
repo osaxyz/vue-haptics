@@ -1,43 +1,14 @@
 <script setup lang="ts">
-import { onBeforeUnmount, ref } from "vue"
-import { type HapticPattern, useHaptics } from "vue-haptics"
+import { onMounted, ref } from "vue"
+import { isHapticsSupported } from "vue-haptics"
 import { settings } from "./settings"
 
-const presets: { label: string; pattern: HapticPattern }[] = [
-    { label: "Light", pattern: 5 },
-    { label: "Default", pattern: 10 },
-    { label: "Heavy", pattern: 40 },
-    { label: "Double tap", pattern: [10, 60, 10] },
-    { label: "Triple tap", pattern: [10, 60, 10, 60, 10] },
-]
+const is_supported = ref(false)
+const count = ref(0)
 
-const { trigger, isSupported } = useHaptics()
-
-const duration = ref(3000)
-const interval = ref(100)
-const is_repeating = ref(false)
-let repeat_timer: ReturnType<typeof setInterval> | undefined
-
-const stopRepeat = () => {
-    clearInterval(repeat_timer)
-    is_repeating.value = false
-}
-
-const startRepeat = () => {
-    stopRepeat()
-    const started_at = Date.now()
-    is_repeating.value = true
-    trigger()
-    repeat_timer = setInterval(() => {
-        if (Date.now() - started_at >= duration.value) {
-            stopRepeat()
-            return
-        }
-        trigger()
-    }, interval.value)
-}
-
-onBeforeUnmount(stopRepeat)
+onMounted(() => {
+    is_supported.value = isHapticsSupported()
+})
 </script>
 
 <template>
@@ -45,7 +16,7 @@ onBeforeUnmount(stopRepeat)
         <h1>vue-haptics</h1>
         <p>
             This device
-            <strong>{{ isSupported ? "supports" : "does not support" }}</strong>
+            <strong>{{ is_supported ? "supports" : "does not support" }}</strong>
             haptic feedback.
         </p>
 
@@ -57,56 +28,31 @@ onBeforeUnmount(stopRepeat)
             Enable haptics (plugin option)
         </label>
 
-        <section aria-labelledby="directive-heading">
-            <h2 id="directive-heading">
+        <section aria-labelledby="tap-heading">
+            <h2 id="tap-heading">
                 v-haptic
             </h2>
             <div class="buttons">
                 <button
-                    v-for="preset in presets"
-                    :key="preset.label"
-                    v-haptic="preset.pattern"
+                    v-haptic
                     type="button"
                 >
-                    {{ preset.label }}
+                    Tap
                 </button>
                 <button
-                    v-haptic:pointerdown
+                    v-haptic
+                    type="button"
+                    @click="count++"
+                >
+                    Tapped {{ count }} times
+                </button>
+                <button
+                    v-haptic="false"
                     type="button"
                 >
-                    On pointerdown
+                    Disabled
                 </button>
             </div>
-        </section>
-
-        <section aria-labelledby="composable-heading">
-            <h2 id="composable-heading">
-                useHaptics
-            </h2>
-            <div class="fields">
-                <label>
-                    Duration (ms)
-                    <input
-                        v-model.number="duration"
-                        type="number"
-                        min="0"
-                    >
-                </label>
-                <label>
-                    Interval (ms)
-                    <input
-                        v-model.number="interval"
-                        type="number"
-                        min="16"
-                    >
-                </label>
-            </div>
-            <button
-                type="button"
-                @click="is_repeating ? stopRepeat() : startRepeat()"
-            >
-                {{ is_repeating ? "Stop" : "Repeat" }}
-            </button>
         </section>
     </main>
 </template>

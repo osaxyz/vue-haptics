@@ -1,12 +1,9 @@
-import type { InjectionKey, Plugin } from "vue"
+import type { Plugin } from "vue"
 import { createHapticDirective, type HapticDirective } from "./directive"
-import type { HapticsOptions, HapticsPluginOptions } from "./types"
-
-export const HAPTICS_KEY: InjectionKey<HapticsOptions> = Symbol("vue-haptics")
+import type { HapticsPluginOptions } from "./types"
 
 /**
- * Plugin that registers `v-haptic` globally and sets app-wide defaults
- * for both the directive and `useHaptics()`.
+ * Plugin that registers `v-haptic` globally.
  *
  * @example
  * ```ts
@@ -14,15 +11,13 @@ export const HAPTICS_KEY: InjectionKey<HapticsOptions> = Symbol("vue-haptics")
  * import { createHaptics } from "vue-haptics"
  *
  * createApp(App)
- *     .use(createHaptics({ pattern: 15, disabled: () => settings.reduce_haptics }))
+ *     .use(createHaptics({ disabled: () => !settings.haptics }))
  *     .mount("#app")
  * ```
  */
 export const createHaptics = (options: HapticsPluginOptions = {}): Plugin => ({
     install(app) {
         const { directive = "haptic", ...defaults } = options
-
-        app.provide(HAPTICS_KEY, defaults)
         if (directive !== false) {
             app.directive(directive, createHapticDirective(defaults))
         }

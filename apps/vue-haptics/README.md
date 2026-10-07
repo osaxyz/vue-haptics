@@ -15,7 +15,7 @@ Haptic feedback for Vue 3 that also works on iOS Safari, where the Vibration API
 
 ## English
 
-> **Important:** vue-haptics requires Vue 3.3 or later. Haptics play on Android browsers with the Vibration API and on iOS Safari 18 or later; elsewhere, calls do nothing. v3.0.0 is a rewrite, and `useHaptic` and `triggerHaptic` from v2 have been removed.
+> **Important:** vue-haptics requires Vue 3.3 or later. A tap on an element with `v-haptic` plays one haptic tick on Android browsers with the Vibration API and on iOS Safari 18 or later; elsewhere, it does nothing. v4.0.0 removed vibration patterns and calling haptics from script, because iOS 26.5 and later play haptics only for a real tap.
 
 ### Quick start
 
@@ -39,8 +39,7 @@ createApp(App).use(createHaptics()).mount("#app")
 
 ```vue
 <template>
-  <button v-haptic>Tap</button>
-  <button v-haptic="[10, 60, 10]">Double tap</button>
+  <button v-haptic @click="save">Save</button>
 </template>
 ```
 
@@ -48,40 +47,29 @@ createApp(App).use(createHaptics()).mount("#app")
 
 > **Tip:** Pass `disabled: () => !settings.haptics` to `createHaptics()` to let users turn haptics off across the whole app.
 
-To play haptics from script, use the composable, or `haptic()` outside components.
-
-```ts
-import { haptic, useHaptics } from "vue-haptics"
-
-const { trigger } = useHaptics({ pattern: 20 })
-trigger()
-
-haptic([10, 60, 10])
-```
-
 ### Technology
 
 <details>
 <summary>Haptics on iOS Safari without the Vibration API</summary>
 <br>
 
-iOS Safari does not implement `navigator.vibrate()`. Since Safari 18, toggling an `<input type="checkbox" switch>` plays a system haptic, so vue-haptics toggles a hidden switch through its label. Where the Vibration API exists, it is used instead. The path is chosen by feature detection, not by the user agent, so iPadOS, which reports a Mac user agent, is handled too.
+iOS Safari does not implement `navigator.vibrate()`, but it plays a system haptic when the user toggles an `<input type="checkbox" switch>`. Since iOS 26.5, a switch toggled from script, including through `label.click()`, plays nothing; only a real tap does. So on iOS, `v-haptic` places a transparent label holding a switch over the element, and the user's own tap lands on that label.
 
 | Environment | How it plays |
 | --- | --- |
-| Android Chrome and other browsers with the Vibration API | `navigator.vibrate(pattern)` |
-| iOS Safari 18 or later | Toggles a hidden `<input switch>` once per "on" segment of the pattern |
+| Android Chrome and other browsers with the Vibration API | `navigator.vibrate(10)` on click |
+| iOS Safari 18 or later | A transparent label over the element toggles a switch on each tap |
 | Others, and SSR | Does nothing |
 
-The idea of using `<input switch>` comes from [use-haptic](https://github.com/posaune0423/use-haptic) by Asuma Yamada. vue-haptics started as a Vue port of it, and v3 is a rewrite for Vue.
+The idea of using `<input switch>` comes from [use-haptic](https://github.com/posaune0423/use-haptic) by Asuma Yamada, and the overlay that works on iOS 26.5 follows [ios-haptics](https://github.com/tijnjh/ios-haptics). vue-haptics started as a Vue port of use-haptic.
 
 </details>
 
 <details>
-<summary>One hidden element for the whole page</summary>
+<summary>The overlay stays out of the way</summary>
 <br>
 
-The hidden switch is created on the first call and shared by every component, directive and call site. Nothing is added to the DOM until haptics are requested. Clicks on the switch stop at its container, so they never reach your own click handlers such as click-outside detection.
+The tap still reaches the element's own click handlers exactly once. The switch is kept out from under the finger, so a gesture that starts on the element can still scroll the page. If Vue rewrites the element's children, the overlay is put back, and it is removed when the element unmounts.
 
 </details>
 
@@ -89,7 +77,7 @@ The hidden switch is created on the first call and shared by every component, di
 <summary>SSR safe</summary>
 <br>
 
-Every entry point checks for `window` and `document` before touching them. `isSupported` from `useHaptics()` starts as `false` and is updated after mount, so the server render and hydration agree. The directive renders no attributes on the server.
+The directive renders nothing on the server and only touches the DOM after mount. `isHapticsSupported()` returns `false` during SSR.
 
 </details>
 
@@ -104,75 +92,47 @@ Releases are built and published from GitHub Actions with npm Trusted Publishing
 ### Specification
 
 <details>
-<summary>Patterns</summary>
-<br>
-
-A pattern is a length in milliseconds, or an array of alternating on and off lengths, in the same shape as `navigator.vibrate()`. The default is `DEFAULT_PATTERN`, which is 10.
-
-| Pattern | Android | iOS |
-| --- | --- | --- |
-| `10` | Vibrates for 10ms | One tick |
-| `[10, 60, 10]` | 10ms on, 60ms off, 10ms on | Two ticks 70ms apart |
-| `0` or `[]` | Stops the current pattern | Cancels the remaining ticks |
-
-A new call replaces a pattern that is still playing. iOS cannot control how long a tick lasts, and plays haptics only in response to a user gesture. Ticks after the first are played on a timer, and iOS may drop them.
-
-</details>
-
-<details>
 <summary>v-haptic</summary>
 <br>
 
 | Usage | Behavior |
 | --- | --- |
-| `v-haptic` | Plays the default pattern on click |
-| `v-haptic="pattern"` | Plays the given pattern |
-| `v-haptic="false"` | Does nothing. `true` plays the default pattern |
-| `v-haptic:pointerdown` | Listens to the given event instead of `click` |
+| `v-haptic` | Plays one tick when the element is tapped |
+| `v-haptic="false"` | Does nothing. `true` turns it back on |
 
-The plugin registers the directive with its options. Without the plugin, import `vHaptic` and use it in `<script setup>`. `createHapticDirective(options)` builds a directive with your own defaults.
+On iOS, an element with `position: static` gets `position: relative` so the overlay can cover it, and its original position is restored on unmount. The overlay covers the whole element, so use `v-haptic` on controls such as buttons rather than on containers with links or inputs inside. In click handlers, `event.target` can be the overlay; use `event.currentTarget` to get the element.
 
 </details>
 
 <details>
-<summary>Functions and composable</summary>
+<summary>Exports</summary>
 <br>
 
 | Export | Description |
 | --- | --- |
-| `haptic(pattern?)` | Plays a pattern. Can be called anywhere, including outside components |
+| `vHaptic` | The directive. Import it in `<script setup>` when you do not use the plugin |
+| `createHaptics(options?)` | Plugin that registers the directive globally |
+| `createHapticDirective(options?)` | Builds a directive with its own options |
 | `isHapticsSupported()` | Whether the device can play haptics. `false` during SSR |
-| `useHaptics(options?)` | Returns `trigger(pattern?)` and a readonly `isSupported` ref. `trigger` ignores a DOM event, so it can be bound as a handler |
-| `createHaptics(options?)` | Plugin that registers the directive and sets app-wide defaults |
-| `createHapticDirective(options?)` | Builds a directive with its own defaults |
+
+| Option | Type | Description |
+| --- | --- | --- |
+| `disabled` | `MaybeRefOrGetter<boolean>` | Suppresses haptics while true. Read at the moment of each tap |
+| `directive` | `string \| false` | `createHaptics` only. Name of the directive, `"haptic"` by default. `false` skips registration |
 
 </details>
 
 <details>
-<summary>Options</summary>
+<summary>Migrating from v3</summary>
 <br>
 
-| Option | Type | Used by | Description |
-| --- | --- | --- | --- |
-| `pattern` | `MaybeRefOrGetter<HapticPattern>` | all | Pattern used when none is given |
-| `disabled` | `MaybeRefOrGetter<boolean>` | all | Suppresses haptics while true |
-| `directive` | `string \| false` | `createHaptics` | Name of the directive, `"haptic"` by default. `false` skips registration |
-
-Options passed to `useHaptics()` take precedence over the plugin options.
-
-</details>
-
-<details>
-<summary>Migrating from v2</summary>
-<br>
-
-| v2 | v3 |
+| v3 | v4 |
 | --- | --- |
-| `useHaptic(duration)` | `useHaptics({ pattern: duration })` |
-| `triggerHaptic()` | `trigger()` |
-| `<button @click="triggerHaptic">` | `<button v-haptic>` |
-
-The default length changed from 5ms to 10ms, and Vue 3.3 or later is required.
+| `v-haptic="40"`, `v-haptic="[10, 60, 10]"` | `v-haptic`. Every tap plays one tick |
+| `v-haptic:pointerdown` | `v-haptic`. Haptics play on click |
+| `haptic()`, `useHaptics().trigger()` | Removed. Put `v-haptic` on the element the user taps |
+| `useHaptics().isSupported` | `isHapticsSupported()` after mount |
+| `pattern` option, `HapticPattern`, `DEFAULT_PATTERN`, `HAPTICS_KEY` | Removed |
 
 </details>
 
@@ -180,7 +140,7 @@ The default length changed from 5ms to 10ms, and Vue 3.3 or later is required.
 
 ## 日本語
 
-> **重要**：vue-haptics には Vue 3.3 以上が必要です。触覚フィードバックは、Vibration API のある Android のブラウザと、iOS Safari 18 以上で鳴ります。それ以外の環境では呼び出しても何も起きません。v3.0.0 は書き直した版で、v2 の `useHaptic` と `triggerHaptic` は廃止しました。
+> **重要**：vue-haptics には Vue 3.3 以上が必要です。`v-haptic` を付けた要素をタップすると、Vibration API のある Android のブラウザと iOS Safari 18 以上で、触覚フィードバックが1回鳴ります。それ以外の環境では何も起きません。iOS 26.5 以降は実際のタップでしか鳴らないため、v4.0.0 で振動のパターンとスクリプトから鳴らす機能を廃止しました。
 
 ### クイックスタート
 
@@ -204,8 +164,7 @@ createApp(App).use(createHaptics()).mount("#app")
 
 ```vue
 <template>
-  <button v-haptic>Tap</button>
-  <button v-haptic="[10, 60, 10]">Double tap</button>
+  <button v-haptic @click="save">Save</button>
 </template>
 ```
 
@@ -213,40 +172,29 @@ createApp(App).use(createHaptics()).mount("#app")
 
 > **ヒント**：`createHaptics()` に `disabled: () => !settings.haptics` を渡すと、アプリ全体の触覚フィードバックを利用者の設定でオフにできます。
 
-スクリプトから鳴らすときは composable を使います。コンポーネントの外では `haptic()` を使います。
-
-```ts
-import { haptic, useHaptics } from "vue-haptics"
-
-const { trigger } = useHaptics({ pattern: 20 })
-trigger()
-
-haptic([10, 60, 10])
-```
-
 ### テクノロジー
 
 <details>
 <summary>Vibration API のない iOS Safari でも鳴らせます</summary>
 <br>
 
-iOS Safari は `navigator.vibrate()` を実装していません。Safari 18 からは `<input type="checkbox" switch>` を切り替えるとシステムの触覚フィードバックが鳴るので、vue-haptics は隠したスイッチを label 経由で切り替えます。Vibration API がある環境ではそちらを使います。経路は UA ではなく機能の有無で選ぶので、Mac の UA を返す iPadOS も取りこぼしません。
+iOS Safari は `navigator.vibrate()` を実装していませんが、利用者が `<input type="checkbox" switch>` を切り替えるとシステムの触覚フィードバックを鳴らします。iOS 26.5 からは、`label.click()` を含めスクリプトから切り替えても鳴らず、実際のタップでしか鳴りません。そこで iOS では、`v-haptic` が要素の上にスイッチを持つ透明な label を重ね、利用者のタップがその label に直接当たるようにしています。
 
 | 環境 | 鳴らし方 |
 | --- | --- |
-| Android Chrome など Vibration API のあるブラウザ | `navigator.vibrate(pattern)` |
-| iOS Safari 18 以上 | パターンの「オン」の区間ごとに、隠した `<input switch>` を1回切り替えます |
+| Android Chrome など Vibration API のあるブラウザ | クリックで `navigator.vibrate(10)` |
+| iOS Safari 18 以上 | 要素に重ねた透明な label が、タップごとにスイッチを切り替えます |
 | それ以外と SSR | 何もしません |
 
-`<input switch>` を使う発想は、Asuma Yamada さんの [use-haptic](https://github.com/posaune0423/use-haptic) によるものです。vue-haptics はその Vue への移植として始まり、v3 で Vue 向けに書き直しました。
+`<input switch>` を使う発想は Asuma Yamada さんの [use-haptic](https://github.com/posaune0423/use-haptic) によるもので、iOS 26.5 でも動く重ね方は [ios-haptics](https://github.com/tijnjh/ios-haptics) に倣っています。vue-haptics は use-haptic の Vue への移植として始まりました。
 
 </details>
 
 <details>
-<summary>隠し要素はページ全体で1つです</summary>
+<summary>重ねた label は操作の邪魔をしません</summary>
 <br>
 
-隠しスイッチは最初の呼び出しで作られ、すべてのコンポーネント、ディレクティブ、呼び出し元で共有されます。触覚フィードバックを求められるまで DOM には何も追加しません。スイッチへのクリックはコンテナで止めるので、要素の外側のクリック検出のような、アプリ側のクリックハンドラには届きません。
+タップは、要素の click のハンドラにもちょうど1回届きます。スイッチは指の下に置かないので、要素の上で始めた操作でもページをスクロールできます。Vue が要素の子を書き換えても label は付け直され、要素がアンマウントされると取り除かれます。
 
 </details>
 
@@ -254,7 +202,7 @@ iOS Safari は `navigator.vibrate()` を実装していません。Safari 18 か
 <summary>SSR でも安全に使えます</summary>
 <br>
 
-どの入口も、`window` と `document` があることを確かめてから触ります。`useHaptics()` の `isSupported` は `false` で始まり、マウント後に更新されるので、サーバーの描画とハイドレーションの結果が一致します。ディレクティブはサーバーでは属性を出力しません。
+ディレクティブはサーバーでは何も出力せず、マウントした後にだけ DOM に触ります。`isHapticsSupported()` は SSR 中は `false` を返します。
 
 </details>
 
@@ -269,74 +217,46 @@ iOS Safari は `navigator.vibrate()` を実装していません。Safari 18 か
 ### 仕様
 
 <details>
-<summary>パターン</summary>
-<br>
-
-パターンはミリ秒の長さか、オンとオフの長さを交互に並べた配列です。形は `navigator.vibrate()` と同じです。既定値は `DEFAULT_PATTERN` の 10 です。
-
-| パターン | Android | iOS |
-| --- | --- | --- |
-| `10` | 10ms 振動します | 1回鳴ります |
-| `[10, 60, 10]` | 10ms オン、60ms オフ、10ms オン | 70ms 間隔で2回鳴ります |
-| `0` か `[]` | 再生中のパターンを止めます | 残りの tick を取り消します |
-
-再生中に新しく呼び出すと、前のパターンを置き換えます。iOS では1回の長さを制御できず、利用者の操作に応じたときだけ鳴ります。2回目以降の tick はタイマーで鳴らすため、iOS が捨てることがあります。
-
-</details>
-
-<details>
 <summary>v-haptic</summary>
 <br>
 
 | 書き方 | 動作 |
 | --- | --- |
-| `v-haptic` | クリックで既定のパターンを鳴らします |
-| `v-haptic="pattern"` | 指定したパターンを鳴らします |
-| `v-haptic="false"` | 何もしません。`true` なら既定のパターンを鳴らします |
-| `v-haptic:pointerdown` | `click` の代わりに指定したイベントで鳴らします |
+| `v-haptic` | 要素をタップすると1回鳴らします |
+| `v-haptic="false"` | 何もしません。`true` に戻すと鳴らします |
 
-プラグインは、渡したオプションでディレクティブを登録します。プラグインを使わない場合は、`<script setup>` で `vHaptic` を import して使います。`createHapticDirective(options)` で、独自の既定値を持つディレクティブを作れます。
+iOS では、label で覆えるよう `position: static` の要素に `position: relative` を付け、アンマウントすると元に戻します。label は要素全体を覆うので、`v-haptic` はボタンのような操作の部品に付け、リンクや入力欄を中に持つ入れ物には付けないでください。click のハンドラでは `event.target` が label になることがあるので、要素は `event.currentTarget` で取ります。
 
 </details>
 
 <details>
-<summary>関数と composable</summary>
+<summary>export</summary>
 <br>
 
 | export | 説明 |
 | --- | --- |
-| `haptic(pattern?)` | パターンを鳴らします。コンポーネントの外を含め、どこからでも呼べます |
+| `vHaptic` | ディレクティブです。プラグインを使わないときは `<script setup>` で import します |
+| `createHaptics(options?)` | ディレクティブを全体に登録するプラグインです |
+| `createHapticDirective(options?)` | 独自のオプションを持つディレクティブを作ります |
 | `isHapticsSupported()` | 端末が触覚フィードバックを鳴らせるかを返します。SSR 中は `false` です |
-| `useHaptics(options?)` | `trigger(pattern?)` と読み取り専用の ref の `isSupported` を返します。`trigger` は DOM のイベントを無視するので、そのままハンドラに渡せます |
-| `createHaptics(options?)` | ディレクティブを登録し、アプリ全体の既定値を設定するプラグインです |
-| `createHapticDirective(options?)` | 独自の既定値を持つディレクティブを作ります |
+
+| オプション | 型 | 説明 |
+| --- | --- | --- |
+| `disabled` | `MaybeRefOrGetter<boolean>` | true の間は鳴らしません。タップした時点の値で判断します |
+| `directive` | `string \| false` | `createHaptics` だけで使います。ディレクティブの名前で、既定は `"haptic"` です。`false` なら登録しません |
 
 </details>
 
 <details>
-<summary>オプション</summary>
+<summary>v3 からの移行</summary>
 <br>
 
-| オプション | 型 | 使う場所 | 説明 |
-| --- | --- | --- | --- |
-| `pattern` | `MaybeRefOrGetter<HapticPattern>` | すべて | パターンを渡さなかったときに使います |
-| `disabled` | `MaybeRefOrGetter<boolean>` | すべて | true の間は鳴らしません |
-| `directive` | `string \| false` | `createHaptics` | ディレクティブの名前です。既定は `"haptic"` で、`false` なら登録しません |
-
-`useHaptics()` に渡したオプションは、プラグインのオプションより優先します。
-
-</details>
-
-<details>
-<summary>v2 からの移行</summary>
-<br>
-
-| v2 | v3 |
+| v3 | v4 |
 | --- | --- |
-| `useHaptic(duration)` | `useHaptics({ pattern: duration })` |
-| `triggerHaptic()` | `trigger()` |
-| `<button @click="triggerHaptic">` | `<button v-haptic>` |
-
-既定の長さは 5ms から 10ms に変わり、Vue 3.3 以上が必要になりました。
+| `v-haptic="40"`、`v-haptic="[10, 60, 10]"` | `v-haptic`。タップごとに1回鳴ります |
+| `v-haptic:pointerdown` | `v-haptic`。クリックで鳴ります |
+| `haptic()`、`useHaptics().trigger()` | 廃止しました。利用者がタップする要素に `v-haptic` を付けます |
+| `useHaptics().isSupported` | マウント後に `isHapticsSupported()` |
+| `pattern` オプション、`HapticPattern`、`DEFAULT_PATTERN`、`HAPTICS_KEY` | 廃止しました |
 
 </details>
