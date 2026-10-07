@@ -1,9 +1,3 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/logo-dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="docs/assets/logo.png">
-  <img src="docs/assets/logo.png" width="96" alt="vue-haptics">
-</picture>
-
 # Contributing to vue-haptics
 
 How to open issues, set up the project, and send pull requests.<br>
